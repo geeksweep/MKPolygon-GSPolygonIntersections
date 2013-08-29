@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
-@interface GSPolygonIntersectionsViewController : UIViewController
+@interface GSPolygonIntersectionsViewController : UIViewController<CLLocationManagerDelegate, MKMapViewDelegate, MKAnnotation, UITextFieldDelegate>{
+    
+    
+    CLLocationManager *locationManager;
+    IBOutlet MKMapView *map;
+    IBOutlet UITextField *polygonTitle;
+    __weak IBOutlet UIButton *addShapeButton;
+}
+
+- (IBAction)addNewShape:(id)sender;
 
 @end
