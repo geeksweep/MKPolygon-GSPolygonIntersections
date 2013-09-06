@@ -116,7 +116,7 @@
     BOOL foundIntersection = NO;
     
     int poly1Count = poly1.pointCount;
-    MKMapPoint *polygon1Points = malloc(sizeof(MKMapPoint) * (poly1Count * 2));
+    MKMapPoint polygon1Points[poly1Count * 2];
     for(int points1Index = 0; points1Index < poly1Count; points1Index++){
         polygon1Points[points1Index * 2] = poly1.points[points1Index];
         if((points1Index+1) == poly1Count){
@@ -131,7 +131,7 @@
     
     
     int poly2Count = poly2.pointCount;
-    MKMapPoint *polygon2Points = malloc(sizeof(MKMapPoint) * (poly2Count * 2));
+    MKMapPoint polygon2Points[poly2Count * 2];
     for(int points2Index = 0; points2Index < poly2.pointCount; points2Index++){
         polygon2Points[points2Index * 2] = poly2.points[points2Index];
         if((points2Index+1) == poly2Count){
@@ -199,7 +199,7 @@
         firstpoint.y = polygon1.points[points1Index * 2].y;
         secondPoint.x = polygon1.points[(points1Index * 2) +1].x;
         secondPoint.y = polygon1.points[(points1Index * 2) +1].y;
-        
+
         //NSLog(@"checking first point %f,%f", firstpoint.x, firstpoint.y);
         if([self isPoint:firstpoint inside:originalPolygon2Path]){
             NSString *pointString = [NSString stringWithFormat:@"%f,%f", firstpoint.x, firstpoint.y];
@@ -322,7 +322,7 @@
     }
     
     int count = finalPolygon.count;
-    MKMapPoint *finalPolygonPoints = malloc(sizeof(MKMapPoint) * count);
+    MKMapPoint finalPolygonPoints[count];
     
     for(int index = 0; index < count; index++){
         NSArray *lineSplit = [[finalPolygon objectAtIndex:index] componentsSeparatedByString:@","];
@@ -330,7 +330,10 @@
     }
     
     MKPolygon *finalMKPolygon = [MKPolygon polygonWithPoints:finalPolygonPoints count:count];
-    
+
+    CGPathRelease(originalPolygon1Path);
+    CGPathRelease(originalPolygon2Path);
+
     return finalMKPolygon;
 }
 
