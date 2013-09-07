@@ -16,13 +16,12 @@
     CLLocationCoordinate2D *coords;
     BOOL addingShape;
     BOOL canAddPoints;
-    CLLocationManager *locationManager;
 }
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 @property (nonatomic) float zoomscale;
 @property (nonatomic) NSString *currentPolygonTitle;
-@property (nonatomic,strong) NSMutableArray *dictionaryOfPolygons;
+@property (nonatomic, strong) NSMutableArray *dictionaryOfPolygons;
 @property (nonatomic, strong) NSMutableArray *path;
 @property (nonatomic, strong) MKCircle *circle;
 @property (nonatomic, strong) MKPolyline *polyLine;
@@ -58,11 +57,10 @@
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
-        locationManager = [[CLLocationManager alloc] init];
-        [locationManager setDelegate:self];
-        [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-        [locationManager startUpdatingLocation];
-        
+        canAddPoints = NO;
+        _coordinate = kCLLocationCoordinate2DInvalid;
+        coords = NULL;
+        addingShape = NO;
         canAddPoints = NO;
     }
     
@@ -122,19 +120,20 @@
 -(void)drawPolygonBorder{
     
     NSInteger numberOfCoordinates = [self.path count];
+
+    if (numberOfCoordinates < 2)    // doesn't seem to make sense to draw a polygon with only one point
+        return;
+
     if(coords != NULL)
         free(coords);
     coords = malloc(sizeof(CLLocationCoordinate2D) * numberOfCoordinates);
     
-    CLLocationCoordinate2D coordinates[numberOfCoordinates];
     for(int pathIndex = 0; pathIndex < numberOfCoordinates; pathIndex++){
         CLLocation *location = [self.path objectAtIndex:pathIndex];
         coords[pathIndex] = location.coordinate;
-        
-        coordinates[pathIndex] = coords[pathIndex];
     }
     
-    self.polyLine = [MKPolyline polylineWithCoordinates:coordinates count:numberOfCoordinates];
+    self.polyLine = [MKPolyline polylineWithCoordinates:coords count:numberOfCoordinates];
     [map addOverlay:self.polyLine];
 }
 
@@ -170,6 +169,8 @@
             return self.polygonView;
         }
     }
+
+    return nil;
 }
 
 - (IBAction)addNewShape:(id)sender {
@@ -207,10 +208,7 @@
             [map addOverlay:self.intersectedPolygon];
         }
         [map addOverlay:self.myPolygon];
-        //[map addAnnotation:myPolygon];
     }
-    
-    
 }
 
 
