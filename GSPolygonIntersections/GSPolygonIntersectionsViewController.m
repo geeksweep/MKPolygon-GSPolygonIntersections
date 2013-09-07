@@ -16,6 +16,7 @@
     CLLocationCoordinate2D *coords;
     BOOL addingShape;
     BOOL canAddPoints;
+    CLLocationManager *locationManager;
 }
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;

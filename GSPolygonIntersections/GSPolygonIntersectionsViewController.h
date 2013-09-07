@@ -12,7 +12,6 @@
 @interface GSPolygonIntersectionsViewController : UIViewController<CLLocationManagerDelegate, MKMapViewDelegate, MKAnnotation, UITextFieldDelegate>{
     
     
-    CLLocationManager *locationManager;
     IBOutlet MKMapView *map;
     IBOutlet UITextField *polygonTitle;
     __weak IBOutlet UIButton *addShapeButton;
