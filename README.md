@@ -5,13 +5,13 @@ MKPolygon+GSPolygonIntersections
 
 Chad Saxon (https://github.com/geeksweep/MKPolygon-GSPolygonIntersections)
 
-####Overview
+#### Overview
 
   MKPolygon+GSPolygonIntersections is a MKPolygon category, which provides extra functionality, via some class methods, that you don't have out of the box, namely, advanced geospatial capabilties. Since MKPolygon conforms to MKOverlay, you can add it as an overlay to your map and also use the 'intersectsMapRect:(MKMapRect)' method to see if your MKPolygon intersects a rectangle. 
 
   However, what if you wanted to test the intersection of your polygon with another non-rectangular polygon and not just a rectangle? What if you wanted to create a brand new MKPolygon based on the union of two non-rectangular MKPolygons? Well if you have then you are in luck because this is what this category actually does! Yep, if you have two MKPolygons already built and you want to get the intersection(union) area of those two polygons then this category will provide that for you. (with certain specific limitations, see below)
   
-####Example Screenshots
+#### Example Screenshots
 
 These are screenshots from a test using the view controller code that is included as part of the project. Basically just a MapView and the view controller to handle all of the GUI stuff. When i am done drawing 2 polygons on the map, I then call the category class method to return to me a new MKPolygon and I use that new polygon as a new overlay (colored orange) on the mapview. (see the view controller code for more details).
 
